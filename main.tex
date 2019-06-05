@@ -12,6 +12,8 @@
 \usepackage{printlen}
 \uselengthunit{mm}
 
+\input{preamble.tex}
+
 \usepackage[utf8]{inputenc}
 
 \title{
@@ -19,7 +21,9 @@
 	}
 	
 \author{
-	Marc Rußwurm
+	Marc Rußwurm,
+	Sébastien Lefèvre,
+	Marco Körner
 	}
 
 \header{
@@ -30,6 +34,311 @@
 	
 \begin{document}
 \maketitle
+
+%\newcommand{\satellitebox}{
+%	\begin{tikzpicture}[node distance=1em]
+%	\node(title){Satellite Data $\V{x}$};
+%	\node[below=of title](s2){\includegraphics[width=15cm]{images/sentinel2}};
+%	\node[below=of s2, text width=20cm]{
+%	ESA Sentinel 2 Satellite
+%	\begin{itemize}\setlength\itemsep{.1em}
+%		\item 13 spectral bands
+%		\item every 2-10 days
+%		\item global coverage
+%		\item free of charge	
+%	\end{itemize}
+%};
+%\end{tikzpicture}
+%}
+
+%\newcommand{\modelbox}{
+%	\begin{tikzpicture}[node distance=1em]
+%\node(title){classification model $f$};
+%\node[below=of title](large){\includegraphics[width=15cm]{images/Large1954_cerial_growth_stages.png}};
+%\node[below=of large](label){learning a phenological model};
+%
+%\node[below=3em of label, xshift=-5em, anchor=east]{yield};
+%\node[below=3em of label, anchor=center]{health};
+%\node[below=3em of label, xshift=5em, anchor=west]{droughts};
+%
+%
+%\end{tikzpicture}
+%}
+
+%\newcommand{\labelbox}{
+%\begin{tikzpicture}[node distance=1em]
+%\node(title){crop type labels $\V{y}$};
+%\node[below=of title](large){\includegraphics[width=15cm]{images/map/parcels}};
+%\node[below=of large, text width=20cm]{
+%Crop Type Labels
+%\begin{itemize}\setlength\itemsep{.1em}
+%\item Europes Common Agricultural Policy (CAP)
+%\item reported by respective farmer
+%\item gathered by national institutions (IGN in France)
+%\end{itemize}
+%};
+%\end{tikzpicture}
+%}
+
+\begin{minipage}[t]{0.65\textwidth}
+
+\section{The Objective}
+
+\begin{tikzpicture}[scale=17]
+	\node[label=Satellite Data ](x) at (-1,0){$\M{X} = (\V{x}_0, \V{x}_1, \dots , \V{x}_T)$};
+	\node[below=of x, label=below:ESA Sentinel 2](s2){\includegraphics[width=13cm]{images/sentinel2}};
+%	\node[below=of s2, text width=15cm]{
+%		ESA Sentinel 2 Satellite
+%		\begin{itemize}\setlength\itemsep{.1em}
+%		\item 13 spectral bands
+%		\item every 2-10 days
+%		\item global coverage
+%		\item free of charge	
+%		\end{itemize}
+%	};
+	\node[below=of s2](eqbox){
+		\begin{tikzpicture}[scale=4, anchor=center]
+		
+			\node at (1,0){\includegraphics[width=8cm]{images/reflectance}};
+			\node(eq) at (-1,0) {
+				$
+				\rho_\lambda = 
+				\frac{
+					\pi L_\lambda d^2
+				}
+				{
+					E_\text{sun} \cos(\varphi_\text{sun})
+				}
+				$
+				};
+			\node at (0,-1){$\V{x}_t = \small \left(\rho_{\text{red}},\rho_{\text{green}},\rho_{\text{blue}},\rho_{\text{nir}},\dots\right)$};
+		\end{tikzpicture}
+	};
+	
+	\node[label=Classification Model](f) at (0,0){ $\V{y} = f(\V{x})$};
+	\node[below=of f](large){\includegraphics[width=13cm]{images/Large1954_cerial_growth_stages.png}};
+	\node[below=of large, circle, fill=tumbluedark, text=white, text width=10cm](label){learning a \\ \textbf{\Large\color{tumorange}vegetation} \color{tumwhite} model};
+	
+	\node[label=Crop Type Labels ](y) at (1,0){$\V{y} \in \small \{\text{corn}, \text{meadows}, \dots\}$};
+	\node[below=of y, label=below:IGN crop type labels](labels){\includegraphics[width=13cm]{images/map/parcels}};
+	\node[below=of labels, text width=12cm]{
+		\small
+	\begin{itemize}\setlength\itemsep{.1em}
+		\item collected in entire Europe
+		\item Europes Common Agricultural Policy (CAP)
+		\item reported by respective farmer
+		\item yearly data
+		\item slowly made publicly available (INSPIRE)
+	\end{itemize}
+	};
+	
+	\draw (x) -- (f) -- (y);
+\end{tikzpicture}
+
+\section{Baselines}
+
+\begin{tabular}{lrrrrrrr}
+	\toprule
+	baseline & accuracy & $\kappa$ & mean f1 & mean precision  & mean recall \\
+	\cmidrule(lr){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}\cmidrule(lr){6-6}\cmidrule(lr){7-7}
+	Transformer & \textbf{0.69}  &  \textbf{0.63} & 0.57 & {0.60} & 0.56 \\
+	LSTM & 0.68 & 0.62 & \textbf{0.59} & \textbf{0.63} & \textbf{0.58} \\
+	\bottomrule
+\end{tabular}
+
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.32\textwidth}
+	
+	\section{Challenges}
+	
+	This real-world dataset poses a series of Challenges to the Time Series Community
+	
+	\begin{itemize}
+		\item agriculture dominated by some extensively cultivated crops
+	\end{itemize}
+%Agricultural areas are commonly dominated by few common crops, such as \textsl{corn}, \textsl{meadow}, or \textsl{wheat} which are cultivated This introduces a strong imbalance in the class frequencies, as shown in \cref{fig:classfrequencies}.
+%	Please note the logarithmic scale. 
+	
+	\subsection{Similar Categories} 
+%	\textbf{Classes with similar characteristics}
+	\begin{itemize}
+		\item some classes are vegetation-wise similar
+	\end{itemize} 
+
+	\tikzstyle{crop} = [fill=tumbluelight, rounded corners]
+	
+	\begin{tikzpicture}[xscale=13, yscale=5]
+		\node at (0,0){{\verytiny\input{images/data/BreizhCrops_rnn/npy/table.tex}}};
+		\node at (1,0){\resizebox{10cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{3}{1}}};
+%		\node at (1,-1){\resizebox{10cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{3}{1}}};
+	\end{tikzpicture}
+
+
+
+
+	
+	
+
+%Some categories can be traced to one unique type of crop, such as \textsl{wheat}, or \textsl{corn}. 
+%	Here, the phenological characteristics can be traced to single specific crop types.
+%	Other, less frequent classes, are aggregated into groups that incorporate a broader range of vegetation types which may be difficult to distinguish, such as \emph{orchards}.
+%	
+	\subsection{Clouds introduce noise}
+
+	\begin{tikzpicture}
+		\input{images/example.tikz}
+		\node at (0,0){\examplecorn};
+	\end{tikzpicture}
+%	\textbf{Non-Gaussian noise induced by clouds}. Clouds cover the Earth's surface at regular intervals. Their large reflectance introduces a positive non-gaussian noise to the data at single intervals. 
+%	This manifests itself by positive outliers in the reflectance data over the time scale, as can be seen in the examples of \cref{fig:aoi}.
+%	
+
+	\textbf{Regional Variations in class distributions and imbalanced class labels}
+%	\textbf{Regional variations in the class distributions}. Regional variances in soil quality, elevation, temperature, and precipitation lead to a spatial correlation in the frequency of dominated agricultural crop. This effect increases at larger scales where these environmental conditions change significantly.
+%	Still, certain variations in crop distributions based on regionally distinct regions can be seen in \cref{fig:classfrequencies}.
+	
+	\input{images/partition_histograms.tikz}
+	
+%	
+%	\begin{tikzpicture}
+%		\node at (0,1){
+%			
+%		};
+%	\end{tikzpicture}
+%	
+%	\begin{tikzpicture}
+%
+%\node at (1,-1){};
+%	\end{tikzpicture}
+%	
+	\subsection{Irregular Sampling Distance and cariable sequence length}
+	
+	\includegraphics[width=\textwidth, height=3cm]{images/days_between_acquisitions}
+	
+	\subsection{Spatial Autocorrelation}
+	 
+	 \includegraphics[width=.66\textwidth]{images/map/breizh}
+	 
+%	\textbf{Spatial autocorrelation}. Spatially closer objects are more similar than distant ones \citep{tobler1970computer}. This autocorrelation can introduce a dependence between training and validation datasets that may disguise overfitting and impede generalization. 
+%	To counteract this, several researchers \cite{russwurm2017temporal,jean2018tile2vec} have adopted a training/validation/evaluation partitioning that groups spatially distant parcels.
+%	%We encourage training on distinct regions in the dataset to ensure that training and test datasets are fully independent.
+%	Hence, we organized the data in their respective NUTS-3 regions to encourage training on these spatially separate regions.
+	
+%	
+%	\begin{tikzpicture}[scale=20]
+%	\node[label=Satellite Data ](x) at (-1,0){$\M{X} = (\V{x}_0, \V{x}_1, \dots , \V{x}_T)$};
+%	\node[below=of x, label=below:ESA Sentinel 2](s2){\includegraphics[width=15cm]{images/sentinel2}};
+%	\node[below=of s2, text width=15cm]{
+%		ESA Sentinel 2 Satellite
+%		\begin{itemize}\setlength\itemsep{.1em}
+%		\item 13 spectral bands
+%		\item every 2-10 days
+%		\item global coverage
+%		\item free of charge	
+%		\end{itemize}
+%	};
+%	
+%	\node[label=classificaiton model](f) at (0,0){ $\V{y} = f(\V{x})$};
+%	\node[below=of f](large){\includegraphics[width=15cm]{images/Large1954_cerial_growth_stages.png}};
+%	\node[below=of large](label){Objective: learning a \textbf{vegetation model} $f$};
+%	
+%	\node[label=crop type labels ](y) at (1,0){$\V{y} \in \small \{\text{corn}, \text{meadows}, \dots\}$};
+%	\node[below=of y](labels){\includegraphics[width=15cm]{images/map/parcels}};
+%	
+%	
+%	
+%	\draw (x) -- (f) -- (y);
+%	\end{tikzpicture}
+\end{minipage}
+
+\vspace{10em}
+%
+%\begin{tikzpicture}[node distance=4cm]
+%
+%	\node[draw](satellitedata){\satellitebox};
+%	\node[draw, right=of satellitedata](model){\modelbox};
+%	\node[draw, right=of model](label){\labelbox};
+%	
+%	\draw[-{stealth[scale=100]}] (satellitedata) -- (model);
+%	\draw[-stealth] (model) -- (label);
+%	
+%\end{tikzpicture}
+
+\section{The Dataset}
+
+\begin{tikzpicture}[scale=5]
+	\node(breizh){\includegraphics[width=30cm]{images/map/breizh}};
+	\node at (1,-1){\includegraphics[width=10cm]{images/map/regions}};
+	\node(europe) at (2,-2){\includegraphics[width=10cm]{images/map/europe}};
+	
+\end{tikzpicture}
+
+
+
+\vspace{30cm}
+
+\vfill
+\begin{tikzpicture}[scale=20]
+	
+		
+
+	
+%	\node at (1,0){\includegraphics[width=10cm]{images/map/parcels}};
+%	\node(breizh){\includegraphics[width=10cm]{images/map/breizh}};
+%	\node[below left =of breizh]{\includegraphics[width=10cm]{images/map/europe}};
+%	\node[below right =of breizh]{\includegraphics[width=10cm]{images/map/regions}};
+	
+	\node at (1,1){
+		\begin{tabular}{lrr}
+		\toprule
+		Departements & NUTS-3 & Parcels \\
+		\cmidrule(lr){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}
+		%			\midrule
+		Morbihan & FRH04 & 158522 \\
+		Côtes-d’Armor & FRH01 & 221095 \\
+		Finistère & FRH02 & 180565\\
+		Ille-et-Vilaine & FRH03 & 207993\\
+		\bottomrule
+		\end{tabular}
+	};
+
+
+
+\node at (2,1){
+	\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{3}{1}
+};
+
+\node at (2,2){
+\input{images/data/BreizhCrops_rnn/npy/table.tex}
+};
+
+\node at (2,0){
+\begin{tabular}{lrrrrrrr}
+\toprule
+baseline & accuracy & $\kappa$ & mean f1 & mean precision  & mean recall \\
+\cmidrule(lr){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}\cmidrule(lr){6-6}\cmidrule(lr){7-7}
+Transformer & \textbf{0.69}  &  \textbf{0.63} & 0.57 & {0.60} & 0.56 \\
+LSTM & 0.68 & 0.62 & \textbf{0.59} & \textbf{0.63} & \textbf{0.58} \\
+\bottomrule
+\end{tabular}
+};
+	
+\node[text width=20cm] at (3,0){
+Challenges
+\begin{itemize}
+	\item Imbalanced class labels
+	\item Classes with similar characteristics
+	\item Non-Gaussian noise induced by clouds
+	\item Regional variations in the class distributions
+	\item Irregular sampling distance
+	\item Variable sequence length
+	\item Spatial autocorrelation
+\end{itemize}
+};
+
+	
+\end{tikzpicture}
 
 \hfill
 
@@ -45,6 +354,7 @@
 	%right
 		\textbf{Authors} \\
 		Marc Rußwurm \\ (marc.russwurm@tum.de) \\
+		Sébastien Lefèvre \\
 		Marco Körner \\ (marco.koerner@tum.de)
 	\vfill
 	\end{multicols}

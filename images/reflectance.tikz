@@ -1,0 +1,31 @@
+\begin{tikzpicture}[font=\verytiny]
+
+
+%	\draw [black,dotted, fill=tumbluelight,domain=110:70] plot ({13*cos(\x)}, {13*sin(\x)-12.8});
+\draw [fill=tumivory,domain=110:70] plot ({10*cos(\x)}, {10*sin(\x)-10});
+%	\draw [fill=tumbluelight,domain=110:70] plot ({12*cos(\x)}f, {12*sin(\x)-10});
+
+
+\node(sun) at (-2,2) {\includegraphics[width=10mm]{images/icons/sun}};
+\node[rotate=130,anchor=center](sat) at (2,2) {\includegraphics[width=10mm]{images/icons/sat2}};
+
+\node(px) at ({10*cos(90)}, {10*sin(90)-10.1}){
+	\begin{tikzpicture}[xscale=.5,yscale=.25]
+	\draw[fill=tumbluelight] (0,0) -- (1,0) -- (2,1) -- (1,1) -- (0,0);
+	\end{tikzpicture}
+	%\includegraphics[width=5mm]{images/icons/house}
+};
+	
+\draw[-stealth] (sun) -- node[midway,sloped]{\wave} (px);
+\draw[-stealth] (px) -- node[midway,sloped]{\wave} (sat);
+
+\draw[-stealth] (sun) -- node[midway,sloped]{\wave} (sat);
+\draw[draw=tumgray] (px) -- node[at end,left]{$\varphi_\text{sun}$} ++(0,1.4); 
+\draw [draw=tumgray, domain=130:90] plot ({1*cos(\x)}, {1*sin(\x)});
+
+\node[above=0em of sun]{$E_\text{sun}(\lambda)$};
+\node[above=0em of sat]{$\rho_\text{boa}(\lambda)$};
+
+%		\draw[red] (0,0) sin (1,2);
+
+\end{tikzpicture}	
