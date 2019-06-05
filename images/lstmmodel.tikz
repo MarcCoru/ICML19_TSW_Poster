@@ -1,0 +1,171 @@
+
+\tikzstyle{dummy} = [inner sep=0]
+\tikzstyle{flow} = [thin, -{Stealth[scale=.5]}]
+\tikzstyle{endflow} = [flow, shorten >= 0, shorten <= 0]
+\tikzstyle{operator} = [inner sep=0, font=\scriptsize]
+\tikzstyle{conn} = [-stealth, shorten >= .2em, inner sep=0]
+\tikzstyle{conntime} = [conn, tumgray]
+\tikzstyle{lstmcell} = [inner sep=0, fill=tumbluelight!20, rounded corners=1em]
+\tikzstyle{module} = [font=\verytiny\sffamily, inner sep=0.1em, rounded corners, fill=tumgraylight]
+
+\newcommand{\act}{
+	\begin{tikzpicture}[scale=.3]
+		\node[circle, draw]{
+			\begin{tikzpicture}
+			\draw (0,0) to[out=0, in=180] (1,1);
+			\end{tikzpicture}
+		}
+	\end{tikzpicture}	
+}
+
+
+
+\newcommand{\lstm}{
+	\begin{tikzpicture}[inner sep=0, xscale=1.2, yscale=1.2]
+	\coordinate (-input) at (0,1); % top left
+	\coordinate (-output) at (0,-2.75); % top left
+	\node[inner sep=0](fgate) at (-1.5,0){\fcn};
+	\node[inner sep=0](igate) at (-.5,0){\fcn};
+	\node[inner sep=0](jgate) at (.5,0){\fcn};
+	\node[operator](jmult) at (0,-1.25) {$ \odot $};
+	\draw[endflow] (jgate) -- (jmult);
+	\draw[endflow] (igate) -- (jmult);
+	\node[inner sep=0](ogate) at (1.5,0){\fcn};
+
+	\draw[endflow] (-input) to[out=270,in=90] (ogate.north);
+	\draw[endflow] (-input) to[out=270,in=90] (jgate.north);
+	\draw[endflow] (-input) to[out=270,in=90] (igate.north); 
+	\draw[endflow] (-input) to[out=270,in=90] (fgate.north);
+
+	\node[operator](fmult) at (-1,-1.25) {$ \odot $};
+	\draw[endflow] (fgate) -- (fmult); 
+	\node[operator](cadd) at (0,-1.75) {$\oplus$};
+	\draw[endflow] (jmult) -- (cadd); 
+	\draw[endflow] (fmult) -- (cadd);		
+	
+	\node[operator](outtanh) at (1,-1.25) {$\odot$};
+	\draw[endflow] (cadd) -- (outtanh);
+	\draw[endflow] (ogate) -- (outtanh);
+	
+	\node[font=\tiny](c) at (-1,-2){$\V{c}_t$};
+	\draw[endflow] (c) -- (fmult);
+	\draw[endflow, tumgray] (cadd) -- (c);
+	
+	\draw (outtanh) to[in=90, out=270] (-output);
+	\end{tikzpicture}
+}
+
+\newcommand{\transformerencoder}{
+	\begin{tikzpicture}[inner sep=0, xscale=1.2, yscale=1.2, node distance=.3em]
+	\coordinate(in) at (0,0);
+	\node[module, below=of in](att){Multi-Head Attention};
+	\node[module, below=of att](an1){Add and Norm};
+	\node[module, below=of an1](ff){Feed Forward};
+	\node[module, below=of ff](an2){Add and Norm};
+	
+	\draw (in) -- (att);
+	\draw (in) -- (att)++(1,0);
+	
+%	\coordinate (-input) at (0,1); % top left
+%	\coordinate (-output) at (0,-2.75); % top left
+%	\node[inner sep=0](fgate) at (-1.5,0){\fcn};
+%	\node[inner sep=0](igate) at (-.5,0){\fcn};
+%	\node[inner sep=0](jgate) at (.5,0){\fcn};
+%	\node[operator](jmult) at (0,-1.25) {$ \odot $};
+%	\draw[endflow] (jgate) -- (jmult);
+%	\draw[endflow] (igate) -- (jmult);
+%	\node[inner sep=0](ogate) at (1.5,0){\fcn};
+%	
+%	\draw[endflow] (-input) to[out=270,in=90] (ogate.north);
+%	\draw[endflow] (-input) to[out=270,in=90] (jgate.north);
+%	\draw[endflow] (-input) to[out=270,in=90] (igate.north); 
+%	\draw[endflow] (-input) to[out=270,in=90] (fgate.north);
+%	
+%	\node[operator](fmult) at (-1,-1.25) {$ \odot $};
+%	\draw[endflow] (fgate) -- (fmult); 
+%	\node[operator](cadd) at (0,-1.75) {$\oplus$};
+%	\draw[endflow] (jmult) -- (cadd); 
+%	\draw[endflow] (fmult) -- (cadd);		
+%	
+%	\node[operator](outtanh) at (1,-1.25) {$\odot$};
+%	\draw[endflow] (cadd) -- (outtanh);
+%	\draw[endflow] (ogate) -- (outtanh);
+%	
+%	\node[font=\tiny](c) at (-1,-2){$\V{c}_t$};
+%	\draw[endflow] (c) -- (fmult);
+%	\draw[endflow, tumgray] (cadd) -- (c);
+%	
+%	\draw (outtanh) to[in=90, out=270] (-output);
+	\end{tikzpicture}
+}
+
+\newcommand{\legend}{
+	\begin{tikzpicture}[yscale=.8, font=\scriptsize]
+		\node[label distance=-1em, label={above:fully connected}] at (0,0){$\fcn = \sigma\left(\M{\theta}\V{x}+\V{b}\right)$};
+		\node[label={above:hidden state}] at (0,1){$\hidden{6}: \V{a} \in \mathbb{R}^h$};
+		\node[label={above:observed state}] at (0,2){$\drawvector{6}: \V{a} \in \mathbb{R}^n$};
+
+	\end{tikzpicture}
+}
+
+\newcommand{\lstmmodel}{
+\tikzsetnextfilename{lstmmodel}
+\begin{tikzpicture}[node distance=1em and 2em, font=\sffamily]
+%\node[fill=tumgraylight!20, rounded corners, inner sep=1pt](legend) at (3,-2.5){\legend};
+
+\node[label={left:$\V{x}_t$}](x0){\drawvector{13}};
+\node[norm, below= .3em of x0](nx0){\scriptsize LayerNorm};
+\node[lstmcell, below=of nx0](l0){\lstm};
+%\node[below=of l0](l1){\dots};
+%\node[lstmcell, below=of l1](l2){\lstm};
+\node[norm, below=of l0](ny0){\scriptsize LayerNorm};
+\node[below=of ny0, label=left:$\V{y}$](h){\hidden{13}};
+
+
+\node[left=1em of l0](ll0){$L \times$};
+
+\draw[conn] (x0) -- (nx0);
+\draw[conn] (nx0) -- node[fill=white]{} (l0);%\drawvector{13}
+\draw[conn] (l0) -- node[fill=white]{}(ny0); %\hidden{16}
+\draw[conn] (ny0) -- (h);
+
+\draw[conntime] (l0)++(-3em,0) -- node[midway, above, font=\tiny]{$\V{h}_{t-1}$} (l0);
+
+
+\draw[conntime] (l0) -- ++(3em,0);
+
+
+\end{tikzpicture}
+}
+
+\newcommand{\transformermodel}{
+	\tikzsetnextfilename{transformermodel}
+	\begin{tikzpicture}[node distance=1em and 2em, font=\sffamily]
+	%\node[fill=tumgraylight!20, rounded corners, inner sep=1pt](legend) at (3,-2.5){\legend};
+	
+	\node[label={left:$\V{x}_t$}](x0){\drawvector{13}};
+%	\node[norm, below= .3em of x0](nx0){\scriptsize LayerNorm};
+	\node[lstmcell, below=of x0](l0){\transformerencoder};
+	%\node[below=of l0](l1){\dots};
+	%\node[lstmcell, below=of l1](l2){\lstm};
+%	\node[norm, below=of l0](ny0){\scriptsize LayerNorm};
+	\node[below=of l0, label=left:$\V{y}$](h){\hidden{13}};
+	
+	
+	\node[left=1em of l0](ll0){$N \times$};
+	
+%	\draw[conn] (x0) -- (nx0);
+	\draw[conn] (x0) -- node[fill=white]{} (l0);%\drawvector{13}
+%	\draw[conn] (l0) -- node[fill=white]{}(l0); %\hidden{16}
+	\draw[conn] (l0) -- (h);
+	
+	\draw[conntime] (l0)++(-3em,0) -- node[midway, above, font=\tiny]{$\V{h}_{t-1}$} (l0);
+	
+	
+	\draw[conntime] (l0) -- ++(3em,0);
+	
+	
+	\end{tikzpicture}
+}
+
+

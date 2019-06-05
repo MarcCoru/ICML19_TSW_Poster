@@ -26,7 +26,7 @@
 	xticklabels={January,April,August,December},
 	ymajorgrids,
 	ymax=10000,
-	thin,
+	very thin,
 	smooth,
 	no marks,  
 	ylabel={$\rho \times 10^4$},
@@ -65,7 +65,7 @@
 }
 
 %\newcommand{\wv}[2]{$\lambda_\text{#1}=#2$}
-\newcommand{\wv}[2]{$\rho_\text{#1}$}
+\newcommand{\wv}[2]{$\rho_{\lambda=\text{#2}}$}
 
 
 \newcommand{\examplemeadows}{
@@ -87,7 +87,7 @@ xmax=2017-12-31,
 ylabel near ticks,
 ylabel style={font=\sffamily\small, rotate=0, yshift=-.5em},
 width=20cm,
-height=10cm,
+height=5cm,
 axis x line=bottom,
 axis y line=left,
 %	enlarge x limits=0.01,
@@ -101,10 +101,11 @@ no marks,
 ylabel={$\rho \times 10^4$},
 draw opacity=.8,
 %		tension=0.001,
-legend columns=5,
+legend columns=13,
 %y tick label style={rotate=90},
 %legend to name=leg,
-legend style={at={(.5,1.1)},anchor=south, line width=1pt, fill=tumblue!10,font=\tiny}
+legend style={at={(-.3,-.7		)},anchor=north, line width=1pt, name=legend, fill=tumblue!10,font=\scriptsize\sffamily},
+legend image post style={line width =4pt}
 ]
 
 %\addlegendimage{empty legend}
@@ -131,18 +132,18 @@ legend style={at={(.5,1.1)},anchor=south, line width=1pt, fill=tumblue!10,font=\
 %
 %\addlegendentry[xshift=-10pt, font=\bfseries]{S2 Satellite Bands}
 
-\addlegendentry{\wv{B01}{443nm}}
-\addlegendentry{\wv{B2}{492nm}}
-\addlegendentry{\wv{B3}{560nm}}
-\addlegendentry{\wv{B4}{665nm}}
-\addlegendentry{\wv{B5}{704nm}}
-\addlegendentry{\wv{B6}{740nm}}
-\addlegendentry{\wv{B7}{783nm}}
-\addlegendentry{\wv{B8}{833nm}}
-\addlegendentry{\wv{B8A}{864nm}}
-\addlegendentry{\wv{B9}{945nm}}
-\addlegendentry{\wv{B10}{1374nm}}
-\addlegendentry{\wv{B12}{2202nm}}
+%\addlegendentry{\wv{B01}{443nm}}
+%\addlegendentry{\wv{B2}{492nm}}
+%\addlegendentry{\wv{B3}{560nm}}
+%\addlegendentry{\wv{B4}{665nm}}
+%\addlegendentry{\wv{B5}{704nm}}
+%\addlegendentry{\wv{B6}{740nm}}
+%\addlegendentry{\wv{B7}{783nm}}
+%\addlegendentry{\wv{B8}{833nm}}
+%\addlegendentry{\wv{B8A}{864nm}}
+%\addlegendentry{\wv{B9}{945nm}}
+%\addlegendentry{\wv{B10}{1374nm}}
+%\addlegendentry{\wv{B12}{2202nm}}
 
 %\legend{
 %\wv{B01}{443nm},
@@ -162,8 +163,8 @@ legend style={at={(.5,1.1)},anchor=south, line width=1pt, fill=tumblue!10,font=\
 
 \end{axis}
 
-
-\node[font=\scriptsize\sffamily, anchor=west] at (0.2,2.7) {Sentinel 2 Satellite Spectral Bands};
+%\node[left=of legend, font=\scriptsize\sffamily]{Sentinel 2 Satellite Spectral Bands};
+%\node[ anchor=west] at (0.2,2.7) {};
 
 
 \end{tikzpicture}
@@ -187,7 +188,7 @@ legend style={at={(.5,1.1)},anchor=south, line width=1pt, fill=tumblue!10,font=\
 	xmax=2017-12-31,
 	ylabel near ticks,
 	ylabel style={font=\sffamily\small, rotate=0, yshift=-.5em},
-	width=\textwidth,
+	width=20cm,
 	height=5cm,
 	axis x line=bottom,
 	axis y line=left,
@@ -204,7 +205,7 @@ legend style={at={(.5,1.1)},anchor=south, line width=1pt, fill=tumblue!10,font=\
 	%		tension=0.001,
 	legend columns=2,
 	%y tick label style={rotate=90},
-	legend style={at={(.5,1)},anchor=south, line width=1pt, fill=tumblue!10, font=\tiny}
+	legend style={at={(-.3,1.1)},anchor=south, line width=1pt, fill=tumblue!10, font=\small}
 	]
 	
 	
@@ -225,16 +226,16 @@ legend style={at={(.5,1.1)},anchor=south, line width=1pt, fill=tumblue!10,font=\
 	\addplot[b3color] table [x=doa, y=B3, col sep=comma] {images/example/6139251.csv};
 	\addplot[b4color] table [x=doa, y=B4, col sep=comma] {images/example/6139251.csv};
 	
-	\node[font=\sffamily\tiny] at (rel axis cs:0.35,0.9)(gr){ground signal};
-	\draw (gr) -- (rel axis cs:.26,.3);
-	\draw (gr) -- (rel axis cs:.2,.3);
-	\draw (gr) -- (rel axis cs:.4,.25);
+	\node[font=\sffamily\tiny, text=tumblue] at (rel axis cs:0.25,0.90)(gr){ground signal};
+	\draw[draw=tumblue] (gr) -- (rel axis cs:.26,.3);
+	\draw[draw=tumblue] (gr) -- (rel axis cs:.2,.3);
+	\draw[draw=tumblue] (gr) -- (rel axis cs:.4,.25);
 	
-	\node[font=\sffamily\tiny] at (rel axis cs:0.8,.93)(cl){cloud noise};
+	\node[font=\sffamily\tiny, text=tumblue] at (rel axis cs:0.85,.93)(cl){cloud noise};
 	
-	\draw (cl) -- (rel axis cs:.68,.7);
-	\draw (cl) -- (rel axis cs:.58,.7);
-	\draw (cl) -- (rel axis cs:.81,.7);
+	\draw[draw=tumblue] (cl) -- (rel axis cs:.68,.7);
+	\draw[draw=tumblue] (cl) -- (rel axis cs:.58,.7);
+	\draw[draw=tumblue] (cl) -- (rel axis cs:.81,.7);
 	
 %	\legend{3 atmospheric, 2 short-wave infrared, 5 near infrared, 3 visible bands}
 %	

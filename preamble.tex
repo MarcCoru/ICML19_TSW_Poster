@@ -53,6 +53,11 @@
 \usepgfplotslibrary{fillbetween}
 \usepgfplotslibrary{statistics} % provides boxplots
 \usepackage{xfrac}
+\usetikzlibrary{backgrounds}
+
+%\pgfdeclarelayer{background}
+%\pgfdeclarelayer{foreground}
+%\pgfsetlayers{background,foreground}
 
 \usetikzlibrary{shapes,snakes}
 
@@ -201,9 +206,9 @@
 %\let\temptwo\enditemize
 %\renewenvironment{itemize}{\tempone\addtolength{\itemsep}{-.5\baselineskip}}{\temptwo}
 
-\tikzstyle{circ} = [circle, draw=white, fill=tumblue, inner sep=1pt]
+\tikzstyle{circ} = [circle, draw=white, fill=tumblue, inner sep=.08em]
 \newcommand{\fcn}{
-	\begin{tikzpicture}[scale=0.2, rotate=0, baseline=-.25em, inner sep=1pt]
+	\begin{tikzpicture}[scale=.5, rotate=0, baseline=-.25em, inner sep=1pt]
 	\node[circ](a0) at (0,-1){};
 	\node[circ](a1) at (0,0){};
 	\node[circ](a2) at (0,1){};

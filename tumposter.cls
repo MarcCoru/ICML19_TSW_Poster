@@ -150,10 +150,11 @@
 \RequirePackage{tikz}
 \tikzset{
     ultra thin/.style= {line width=.5pt},
-    very thin/.style=  {line width=1pt},
-    thin/.style=       {line width=2pt},% thin is the default
-    semithick/.style=  {line width=2.5pt},
-    thick/.style=      {line width=3pt},
-    very thick/.style= {line width=3.5pt},
+    very thin/.style=  {line width=.75pt},
+    thin/.style=       {line width=1pt},% thin is the default
+    default/.style=    {line width=1.5pt},
+    semithick/.style=  {line width=2pt},
+    thick/.style=      {line width=2.5pt},
+    very thick/.style= {line width=3pt},
     ultra thick/.style={line width=4pt}
 }
