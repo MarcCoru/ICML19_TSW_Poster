@@ -22,9 +22,9 @@
 	}
 	
 \author{
-	Marc Rußwurm,
-	Sébastien Lefèvre,
-	Marco Körner
+	Marc Rußwurm\footnotemark[1],
+	Sébastien Lefèvre\footnotemark[2],
+	Marco Körner\footnotemark[1]
 	}
 
 \header{
@@ -312,20 +312,31 @@ Brittany, France (\textit{Breizh} in local language)
 
 % footer environment places \hfill and sets fontsize
 \begin{footer}
-	\begin{multicols}{2}
-		\textbf{Technical University of Munich}\\
-		TUM Department of Civil, Geo and Environmental Engineering \\
-		Remote Sensing Technology, Computer Vision Research Group \\
-		Arcisstr. 21, 80333 Munich, Germany \\
+	\begin{minipage}{.33\textwidth}
+		\textbf{Technical University of Munich}\footnotemark[1]\\
+		TUM Department of Civil, Geo and Env. Engineering \\
+		Remote Sensing Technology \\
+		Arcisstr. 21, 80333 Munich, Germany
+	\end{minipage}
+	\begin{minipage}{.33\textwidth}
+		\textbf{IRISA-Obelix}\footnotemark[2]\\
+		second line \\
+		third line \\
+		fourth line
+	\end{minipage}
+	\begin{minipage}{.23\textwidth}
+		\textbf{Data \& Code} \\
+%		\vspace{1em}
+		{github.com/TUM-LMF/BreizhCrops} \\
+		{https://twitter.com/MarcCoru} \\
 		www.lmf.bgu.tum.de/vision
-	\vfill\columnbreak
-	%right
-		\textbf{Authors} \\
-		Marc Rußwurm \\ (marc.russwurm@tum.de) \\
-		Sébastien Lefèvre \\
-		Marco Körner \\ (marco.koerner@tum.de)
-	\vfill
-	\end{multicols}
+	\end{minipage}
+	\begin{minipage}{.10\textwidth}
+		\hfill\includegraphics[width=5cm]{images/qrcode}\\
+		
+	\end{minipage}
+
+	
 \end{footer}
 
 \end{document}
