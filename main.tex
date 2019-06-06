@@ -34,6 +34,8 @@
 	}
 	
 \begin{document}
+	\tikzstyle{every picture}+=[remember picture]
+	
 \maketitle
 
 %\newcommand{\satellitebox}{
@@ -81,9 +83,10 @@
 %\end{tikzpicture}
 %}
 
+%\vspace{-1em}
 \begin{minipage}[t]{0.65\textwidth}
 
-\section{The Objective}
+\section{Objective}
 
 \begin{tikzpicture}[scale=16]
 	\node[label={[name=sat,text height=1.5ex,text depth=.25ex]Satellite Data}, anchor=north](x) at (-1,0){$\M{X} = (\V{x}_0, \V{x}_1, \dots , \V{x}_T)$};
@@ -154,7 +157,7 @@
 	
 \end{tikzpicture}
 
-\section{The Data}
+\section{Data}
 Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km².
 %
 %\vspace{1em}
@@ -193,7 +196,7 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 
 	\scoped[on background layer]
 	{
-%		\node[fit=(a)(b)(d)(histogram), fill=boxcolor, inner sep=1em, rounded corners]{};
+		\node[fit=(a)(b)(d)(histogram)(label), fill=tumbluelight!20, inner sep=0em, rounded corners]{};
 	}	
 	
 \end{tikzpicture}
@@ -210,7 +213,7 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 
 \scoped[on background layer]
 {
-%	\node[fit=(a)(b)(c), fill=boxcolor, inner sep=1em, rounded corners]{};
+	\node[fit=(a)(b)(c), fill=tumbluelight!20, inner sep=0em, rounded corners]{};
 }
 \end{tikzpicture}
 
@@ -218,7 +221,7 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 \hfill
 \begin{minipage}[t]{0.32\textwidth}
 	
-	\section{The Baseline Results}
+	\section{Results}
 	
 	We show the feasibility of classifying this dataset with \textbf{\color{tumblue}LSTM} \citep{hochreiter1997long} and \textbf{\color{tumorange}Tranformer} \citep{Vaswani:Transformer} baselines.
 	
@@ -226,75 +229,43 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 %	\lstmmodel
 %	\transformermodel
 	
-	\vspace{1em}
-	\centering
-	Comparison of Baseline Models
+	\vspace{.5em}
+	
 	\begin{tikzpicture}
-		\node[rounded corners]{
+		\node[label={[name=lab3]above:Comparison of Baseline Models}](a){
 		\begin{tabular}{lccccccc}
 		\toprule
-		method & acc & $\kappa$ & $f_1$ & prec.  & rec. \\
+		method & accuracy & $\kappa$ & $f_1$ & prec.  & rec. \\
 		\cmidrule(lr){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}\cmidrule(lr){6-6}\cmidrule(lr){7-7}
-		Transformer & \textbf{.69}  &  \textbf{.63} & .57 & {.60} & .56 \\
-		LSTM & .68 & .62 & \textbf{.59} & \textbf{.63} & \textbf{.58} \\
+		\textbf{\color{tumorange}Transformer} & \textbf{.69}  &  \textbf{.63} & .57 & {.60} & .56 \\
+		\textbf{\color{tumblue}LSTM} & .68 & .62 & \textbf{.59} & \textbf{.63} & \textbf{.58} \\
 		\bottomrule
 		\end{tabular}
 		};
+		\scoped[on background layer]
+		{
+			\node[fit=(a)(lab3), fill=tumgraylight!40, inner sep=0em, rounded corners]{};
+		}
 	\end{tikzpicture}
 
-	\vspace{1em}
+	\vspace{.5em}
 	
 	\tikzstyle{crop} = [fill=tumbluelight, rounded corners]
 	
-	Class-wise results of the LSTM model.
+	
 	\begin{tikzpicture}[xscale=6, yscale=15]
-		\node[] at (0,0){{\small\input{images/data/BreizhCrops_rnn/npy/table.tex}}};
-		\node[rounded corners, label=below:\small precision] at (-1,-1){\resizebox{12cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{3}{1}}};
-		\node[rounded corners, label=below:\small recall] at (1,-1){\resizebox{12cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{4}{1}}};
+		\node[label={[name=lab2]above:Class-wise results of the LSTM model.}](a) at (0,0){{\small\input{images/data/BreizhCrops_rnn/npy/table.tex}}};
+		\node[rounded corners, label={[name=lab]below:\small precision}](b) at (-1,-1){\resizebox{12cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{3}{1}}};
+		\node[rounded corners, label=below:\small recall](c) at (1,-1){\resizebox{12cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{4}{1}}};
+		
+		\scoped[on background layer]
+		{
+			\node[fit=(a)(b)(c)(lab)(lab2), fill=tumbluelight!20, inner sep=0em, rounded corners]{};
+		}
+		
 	\end{tikzpicture}
 
 
-
-
-	
-	
-
-%Some categories can be traced to one unique type of crop, such as \textsl{wheat}, or \textsl{corn}. 
-%	Here, the phenological characteristics can be traced to single specific crop types.
-%	Other, less frequent classes, are aggregated into groups that incorporate a broader range of vegetation types which may be difficult to distinguish, such as \emph{orchards}.
-%	
-%	\subsection{Clouds introduce noise}
-
-%	\textbf{Non-Gaussian noise induced by clouds}. Clouds cover the Earth's surface at regular intervals. Their large reflectance introduces a positive non-gaussian noise to the data at single intervals. 
-%	This manifests itself by positive outliers in the reflectance data over the time scale, as can be seen in the examples of \cref{fig:aoi}.
-%	
-
-%	\textbf{Regional Variations in class distributions and imbalanced class labels}
-%	\textbf{Regional variations in the class distributions}. Regional variances in soil quality, elevation, temperature, and precipitation lead to a spatial correlation in the frequency of dominated agricultural crop. This effect increases at larger scales where these environmental conditions change significantly.
-%	Still, certain variations in crop distributions based on regionally distinct regions can be seen in \cref{fig:classfrequencies}.
-	
-%	\input{images/partition_histograms.tikz}
-	
-%	
-%	\begin{tikzpicture}
-%		\node at (0,1){
-%			
-%		};
-%	\end{tikzpicture}
-%	
-%	\begin{tikzpicture}
-%
-%\node at (1,-1){};
-%	\end{tikzpicture}
-%	
-%	\subsection{Irregular Sampling Distance and cariable sequence length}
-%	
-%	\includegraphics[width=\textwidth, height=3cm]{images/days_between_acquisitions}
-%	
-%	\subsection{Spatial Autocorrelation}
-%	 
-%	 \includegraphics[width=.66\textwidth]{images/map/breizh}
-%	 
 	 \section{Outlook}
 %	 
 %	 \begin{minipage}{\textwidth}
@@ -314,8 +285,8 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 	 \section{Feedback}
 	 
 	 \begin{itemize}
-	 	\item better baseline models?
-	 	\item general interest in this application?
+	 	\item suggestion of baseline models?
+%	 	\item general interest in this application?
 %	 	\item use of the dataset for TS community?
 	 	\item ideas to address the challenges?
 	 \end{itemize}
@@ -325,6 +296,11 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 	\bibliography{bib/references.bib}
 
 \end{minipage}
+
+%%%%%%%%% Challenges!
+\begin{tikzpicture}[overlay]
+%\node at (lab){test};
+\end{tikzpicture}
 
 
 % footer environment places \hfill and sets fontsize
@@ -337,9 +313,10 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 	\end{minipage}
 	\begin{minipage}{.33\textwidth}
 		\textbf{IRISA-Obelix}\footnotemark[2]\\
-		second line \\
-		third line \\
-		fourth line
+		Université Bretagne Sud \\
+		IRISA, UMR 6074 CNRS \\
+		Campus de Tohannic, 56000 Vannes, France
+		
 	\end{minipage}
 	\begin{minipage}{.23\textwidth}
 		\textbf{Data \& Code} \\
