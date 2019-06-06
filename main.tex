@@ -86,7 +86,7 @@
 \section{The Objective}
 
 \begin{tikzpicture}[scale=16]
-	\node[label={[name=sat]Satellite Data}](x) at (-1,0){$\M{X} = (\V{x}_0, \V{x}_1, \dots , \V{x}_T)$};
+	\node[label={[name=sat,text height=1.5ex,text depth=.25ex]Satellite Data}, anchor=north](x) at (-1,0){$\M{X} = (\V{x}_0, \V{x}_1, \dots , \V{x}_T)$};
 	\node[below=of x, label={[yshift=1.3em, xshift=1.8em, font=\tiny, text=white]below:ESA Sentinel 2 Satellite}](s2){\includegraphics[width=13cm]{images/sentinel2}};
 
 	
@@ -110,14 +110,15 @@
 %
 %				};
 %		\end{tikzpicture}
-		\includegraphics[width=7cm]{images/reflectance}
+		\includegraphics[width=7.55cm]{images/reflectance}
 %		\vspace{1em}
 		
-		in N=13 spectral bands
-		$\V{x}_t = \tiny \left(\rho_{\text{red}},\rho_{\text{green}},\rho_{\text{nir}},\dots\right)$
+		{\small in 13 spectral bands\\
+		\vspace{1em}
+		$\V{x}_t = \left(\rho_{\text{red}},\rho_{\text{green}},\rho_{\text{nir}},\dots\right)^T$}
 	};
 	
-	\node[label={[name=cm]Classification Model}](f) at (0,0){ $\V{y} = f(\M{x})$};
+	\node[label={[name=cm,text height=1.5ex,text depth=.25ex]Classification Model}, anchor=north](f) at (0,0){ $\V{y} = f(\M{x})$};
 	\node[below=of f](large){\includegraphics[width=13cm]{images/Large1954_cerial_growth_stages.png}};
 	\node[below=of large, circle, fill=tumbluedark, text=white, text width=10cm](label){learning a \\ \textbf{\Large\color{tumorange}vegetation} \color{tumwhite} model $f$};
 	\node[below=of label, xshift=-3em, yshift=1em, rotate=0, text=tumgraydark](yield){yield?};
@@ -126,16 +127,18 @@
 	\node[fit=(yield)(prod)(health), draw=none, rounded corners, label={[anchor=north, font=\tiny, xshift=3em, yshift=.75em, text=tumblue]south:\#foodsecurity}](foodsec){};
 	
 
-	\node[label={[name=ctm]Crop Type Labels}](y) at (1,0){$\V{y} \in \small \{\text{corn}, \text{meadows}, \dots\}$};
+	\node[label={[name=ctm,text height=1.5ex,text depth=.25ex]Crop Type Labels}, anchor=north](y) at (1,0){
+		$\V{y} = \small (y_\text{corn}, y_\text{barley}, \dots) \in \mathbb{R}^{13}$
+	};
 	\node[below=of y, label=below:IGN crop type labels](labels){\includegraphics[width=13cm]{images/map/parcels}};
 	\node[below=of labels, text width=12cm](lbls){
 		\small
 	\begin{itemize}\setlength\itemsep{.1em}
-		\item collected in entire Europe
-		\item Europes Common Agricultural Policy (CAP)
-		\item reported by respective farmer
-		\item yearly data
-		\item slowly made publicly available (INSPIRE)
+		\item European Common Agricultural Policy (CAP)
+		\item collected yearly in entire Europe
+		\item slowly made publicly available
+		\item today, gathered on a national basis
+		\item in future harmonized within Europe's INSPIRE directive
 	\end{itemize}
 	};
 	
@@ -144,23 +147,32 @@
 	
 	\scoped[on background layer]
 	{
-		\node[fit=(cm)(foodsec), fill=tumgraylight, inner sep=1em, rounded corners]{};
-		\node[fit=(ctm)(lbls), fill=tumgraylight, inner sep=1em, rounded corners]{};
-		\node[fit=(sat)(eqbox), fill=tumgraylight, inner sep=1em, rounded corners]{};
+		\node[fit=(ctm)(lbls), fill=tumbluelight!20, inner sep=1em, rounded corners]{};
+		\node[fit=(cm)(foodsec), fill=tumorange!20, inner sep=1em, rounded corners]{};
+		\node[fit=(sat)(eqbox), fill=tumbluelight!20, inner sep=1em, rounded corners]{};
 	}	
 	
 \end{tikzpicture}
 
 \section{The Data}
-Brittany, France (\textit{Breizh} in local language)
+Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km².
+%
+%\vspace{1em}
 
-%\subsection{Labels}
-\small \textbf{Labels} 580k field parcels with 13 crop categories
+\subsection{Labels}
+\small 580k field parcels with 13 crop categories
 
-\begin{tikzpicture}[node distance=0em]
-	\node[label={[text width=14cm, yshift=0ex]above:\tiny field parcels in Brittany colored by crop type label}](a){\includegraphics[width=14cm]{images/map/breizh}};
-	\node[right=of a, label={[text width=14cm, yshift=0ex]above:\tiny administrative divisions of Brittany used for \textbf{spatially separate} \textbf{train/test} \textbf{split}}](b){\includegraphics[width=14cm]{images/map/regions}};
-	\node[right=of b, label={[text width=14cm, yshift=0ex]above:\tiny {\color{tumorange}Brittany} and {\color{tumblue} other regions} releasing anonymized crop type labels}, text width=14cm](d){\includegraphics[width=15cm]{images/map/europe_data2.pdf}};
+\vspace{1em}
+\begin{tikzpicture}[scale=16]
+	\node[label={[name=label]Field Parcels}](a) at (-1,0){\includegraphics[width=13cm]{images/map/breizh}};
+%	\node[fit=(label)(a), draw=tumbluedark, rounded corners, minimum height=13cm]{};
+%%	\node[above=of a, text width=14cm, font=\tiny]{field parcels in Brittany colored by crop type label};
+	%
+	\node[label={[name=label, text height=2ex]above: Administrative Divisions}](b) at (0,0){\includegraphics[width=12.6cm]{images/map/regions}};
+%	\node[fit=(label)(b), draw=tumbluedark, rounded corners, minimum height=13cm]{};
+	
+	\node[label={[name=label, text height=2ex]above: European Crop Data}](d) at (1,0){\includegraphics[width=14cm]{images/map/europe_data2.pdf}};
+%	\node[fit=(label)(d), draw=tumbluedark, rounded corners, minimum height=13cm]{};
 %	\node[right=of b](c){
 %		\small
 %			\begin{tabular}{lrr}
@@ -175,26 +187,31 @@ Brittany, France (\textit{Breizh} in local language)
 %			\bottomrule
 %			\end{tabular}	
 %		};
-	\node[below=of b](histogram){
+	\node[below=of b, label={[yshift=-1em]above:Class Frequency in the Administrative Divisions}, yshift=1em](histogram){
 	\input{images/partition_histograms.tikz}
 	};
 
 	\scoped[on background layer]
 	{
-		\node[fit=(a)(b)(d)(histogram), fill=tumgraylight, inner sep=1em, rounded corners]{};
-%		\node[fit=(ctm)(lbls), fill=tumgraylight, inner sep=1em, rounded corners]{};
-%		\node[fit=(sat)(eqbox), fill=tumgraylight, inner sep=1em, rounded corners]{};
+%		\node[fit=(a)(b)(d)(histogram), fill=boxcolor, inner sep=1em, rounded corners]{};
 	}	
 	
 \end{tikzpicture}
- \small \textbf{Time Series} 70-150 surface reflectance measurements in 13 spectral bands for each parcel of the season 2017
+\vspace{-1em}
+% \small \textbf{Time Series} 
+\subsection{Satellite Reflectance Time Series}
+\small 70-150 surface reflectance measurements in 13 spectral bands for each parcel of the season 2017
 
-
-\begin{tikzpicture}[xscale=12, yscale=-4]
+\begin{tikzpicture}[xscale=11, yscale=-4]
 \input{images/example.tikz}
 \node[label={[yshift=.75em]below:\tiny corn parcel}](a) at (-1,0){\examplecorn};
 \node[label={[yshift=.75em]below:\tiny meadow parcel}](b) at (1,0){\examplemeadows};
-\node at (0,-1){\includegraphics[]{images/legend_x2}};
+\node(c) at (0,1.2) {\includegraphics[]{images/legend_x2}};
+
+\scoped[on background layer]
+{
+%	\node[fit=(a)(b)(c), fill=boxcolor, inner sep=1em, rounded corners]{};
+}
 \end{tikzpicture}
 
 \end{minipage}
@@ -218,8 +235,8 @@ Brittany, France (\textit{Breizh} in local language)
 		\toprule
 		method & acc & $\kappa$ & $f_1$ & prec.  & rec. \\
 		\cmidrule(lr){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}\cmidrule(lr){6-6}\cmidrule(lr){7-7}
-		Transformer & \textbf{0.69}  &  \textbf{0.63} & 0.57 & {0.60} & 0.56 \\
-		LSTM & 0.68 & 0.62 & \textbf{0.59} & \textbf{0.63} & \textbf{0.58} \\
+		Transformer & \textbf{.69}  &  \textbf{.63} & .57 & {.60} & .56 \\
+		LSTM & .68 & .62 & \textbf{.59} & \textbf{.63} & \textbf{.58} \\
 		\bottomrule
 		\end{tabular}
 		};
@@ -279,25 +296,25 @@ Brittany, France (\textit{Breizh} in local language)
 %	 \includegraphics[width=.66\textwidth]{images/map/breizh}
 %	 
 	 \section{Outlook}
-	 
-	 \begin{minipage}{\textwidth}
+%	 
+%	 \begin{minipage}{\textwidth}
+%	 	
+	 	\begin{itemize}
+	 		\item \textbf{pre-train} vegetation model on available crop type data
+	 		\item test \textbf{generalization} over \textbf{changing environmental conditions}
+	 		\item \textit{Google Research Credits} for large-scale crop type mapping  
+	 	\end{itemize}
 	 	
-	 	\textbf{pre-train} vegetation model on available crop type data
-	 	
-	 	test \textbf{generalization} over \textbf{changing environmental conditions}
-	 	
-	 	gather \textbf{\color{tumblue}more crop data} with awarded \\ \textit{Google Research Credits} 
-
-	 \end{minipage}
-%	 \begin{minipage}{.38\textwidth}
-%	 	\includegraphics[width=\textwidth]{images/map/europe_data.pdf}
+%	 \end{minipage}
+%%	 \begin{minipage}{.38\textwidth}
+%%	 	\includegraphics[width=\textwidth]{images/map/europe_data.pdf}
 %	 	\tiny open crop data regions
 %	 \end{minipage}
 	 
 	 \section{Feedback}
 	 
 	 \begin{itemize}
-	 	\item other baseline models?
+	 	\item better baseline models?
 	 	\item general interest in this application?
 %	 	\item use of the dataset for TS community?
 	 	\item ideas to address the challenges?
