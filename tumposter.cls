@@ -22,8 +22,8 @@
 
 \setlength{\headerheight}{86mm} % checked 46mm \PlakatKopfzeileAbstand + 40mm \PlakatKopfzeileHoehe
 \setlength{\tumlogowidth}{87.2mm} % checked
-\setlength{\footerheight}{75mm} % checked
-\setlength{\footerheight}{46mm} % checked
+%\setlength{\footerheight}{75mm} % checked
+\setlength{\footerheight}{36mm} % checked
 
 % remove vertical rule between columns
 \setlength{\columnseprule}{0pt}
@@ -150,11 +150,10 @@
 \RequirePackage{tikz}
 \tikzset{
     ultra thin/.style= {line width=.5pt},
-    very thin/.style=  {line width=.75pt},
-    thin/.style=       {line width=1pt},% thin is the default
-    default/.style=    {line width=1.5pt},
+    very thin/.style=  {line width=1pt},
+    thin/.style=       {line width=1.5pt},% thin is the default
     semithick/.style=  {line width=2pt},
-    thick/.style=      {line width=2.5pt},
-    very thick/.style= {line width=3pt},
+    thick/.style=      {line width=3pt},
+    very thick/.style= {line width=3.5pt},
     ultra thick/.style={line width=4pt}
 }
