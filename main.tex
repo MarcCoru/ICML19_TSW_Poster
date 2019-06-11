@@ -125,12 +125,12 @@
 	};
 	
 	\node[label={[name=cm,text height=1.5ex,text depth=.25ex]Classification Model}, anchor=north](f) at (0,0){ $\V{y} = f(\M{x})$};
-	\node[below=of f, label={[yshift=.5em]below:\verytiny cereal vegetation model by \citet{Large1954}}](large){\includegraphics[width=14.5cm]{images/Large1954_cerial_growth_stages.png}};
+	\node[below=of f, label={[yshift=0em]below:\verytiny cereal vegetation model by \citet{Large1954}}, inner sep=0](large){\includegraphics[width=14.5cm]{images/Large1954_cerial_growth_stages.png}};
 	\node[below=of large, circle, fill=tumbluedark, text=white, text width=10cm](label){learning a \\ \textbf{\Large\color{tumorange}vegetation} \color{tumwhite} model $f$};
-	\node[below=of label, xshift=-3.5em, yshift=1em, rotate=0, text=tumgraydark](yield){crop yield?};
-	\node[below=of label, text=tumgraydark](prod){production?};
-	\node[below=of label, xshift=3.5em, yshift=1em, text=tumgraydark](health){crop health?};
-	\node[fit=(yield)(prod)(health), draw=none, rounded corners, label={[anchor=north, font=\tiny, xshift=3em, yshift=.75em, text=tumblue]south:\#foodsecurity}](foodsec){};
+	\node[below=of label, xshift=-2.3em, yshift=.5em, rotate=0, text=tumgraydark, font=\small](yield){crop yield?};
+	\node[below=of label, text=tumgraydark, font=\small, yshift=-.5em](prod){production?};
+	\node[below=of label, xshift=2.3em, yshift=.5em, text=tumgraydark, font=\small](health){crop health?};
+	\node[fit=(yield)(prod)(health), draw=none, rounded corners, label={[anchor=north, font=\tiny, xshift=3.5em, yshift=.75em, text=tumblue]south:\#foodsecurity}](foodsec){};
 	
 
 	\node[label={[name=ctm,text height=1.5ex,text depth=.25ex]Crop Type Labels}, anchor=north](y) at (1,0){
