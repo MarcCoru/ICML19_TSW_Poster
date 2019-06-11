@@ -34,6 +34,9 @@
 	}
 	
 \begin{document}
+	
+%	\renewcommand{\subsection}[1]{\textbf{#1}}
+	
 	\tikzstyle{every picture}+=[remember picture]
 	
 \maketitle
@@ -92,9 +95,9 @@
 	\node[label={[name=sat,text height=1.5ex,text depth=.25ex]Satellite Data}, anchor=north](x) at (-1,0){$\M{X} = (\V{x}_0, \V{x}_1, \dots , \V{x}_T)$};
 	\node[below=of x, label={[yshift=1.3em, xshift=1.8em, font=\tiny, text=white]below:ESA Sentinel 2 Satellite}](s2){\includegraphics[width=13cm]{images/sentinel2}};
 
-	
 	\node[below=of s2, text width=13cm](eqbox){
-		surface reflectance
+		\small surface reflectance \\
+		\vspace{1em}
 		\centering
 		$
 		\rho_\lambda = 
@@ -113,7 +116,7 @@
 %
 %				};
 %		\end{tikzpicture}
-		\includegraphics[width=7.55cm]{images/reflectance}
+		\includegraphics[width=9cm]{images/reflectance}
 %		\vspace{1em}
 		
 		{\small in 13 spectral bands\\
@@ -122,11 +125,11 @@
 	};
 	
 	\node[label={[name=cm,text height=1.5ex,text depth=.25ex]Classification Model}, anchor=north](f) at (0,0){ $\V{y} = f(\M{x})$};
-	\node[below=of f](large){\includegraphics[width=13cm]{images/Large1954_cerial_growth_stages.png}};
+	\node[below=of f, label={[yshift=.5em]below:\verytiny cereal vegetation model by \citet{Large1954}}](large){\includegraphics[width=14.5cm]{images/Large1954_cerial_growth_stages.png}};
 	\node[below=of large, circle, fill=tumbluedark, text=white, text width=10cm](label){learning a \\ \textbf{\Large\color{tumorange}vegetation} \color{tumwhite} model $f$};
-	\node[below=of label, xshift=-3em, yshift=1em, rotate=0, text=tumgraydark](yield){yield?};
+	\node[below=of label, xshift=-3.5em, yshift=1em, rotate=0, text=tumgraydark](yield){crop yield?};
 	\node[below=of label, text=tumgraydark](prod){production?};
-	\node[below=of label, xshift=3em, yshift=1em, text=tumgraydark](health){health?};
+	\node[below=of label, xshift=3.5em, yshift=1em, text=tumgraydark](health){crop health?};
 	\node[fit=(yield)(prod)(health), draw=none, rounded corners, label={[anchor=north, font=\tiny, xshift=3em, yshift=.75em, text=tumblue]south:\#foodsecurity}](foodsec){};
 	
 
@@ -145,20 +148,26 @@
 	\end{itemize}
 	};
 	
-	\draw[thin, -{Stealth[scale=.5]}, tumblue] (x) -- (f);
-	\draw[thin, -{Stealth[scale=.5]}, tumblue] (f) -- (y);
+	\draw[-stealth, thick, tumblue] (x) -- (f);
+	\draw[-stealth, thick, tumblue] (f) -- (y);
+	
+	\coordinate(bcenter) at (eqbox.south -| f);
+	\coordinate(bright) at (eqbox.south -| y);
+	
 	
 	\scoped[on background layer]
 	{
-		\node[fit=(ctm)(lbls), fill=tumbluelight!20, inner sep=1em, rounded corners]{};
-		\node[fit=(cm)(foodsec), fill=tumorange!20, inner sep=1em, rounded corners]{};
 		\node[fit=(sat)(eqbox), fill=tumbluelight!20, inner sep=1em, rounded corners]{};
+		\node[fit=(cm)(foodsec)(bcenter), fill=tumorange!20, inner sep=1em, rounded corners]{};
+		\node[fit=(ctm)(lbls)(bright), fill=tumbluelight!20, inner sep=1em, rounded corners]{};
+	
 	}	
 	
 \end{tikzpicture}
 
+\vspace{-.5em}
 \section{Data}
-Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km².
+Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27,206 km².
 %
 %\vspace{1em}
 
@@ -167,36 +176,33 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 
 \vspace{1em}
 \begin{tikzpicture}[scale=16]
-	\node[label={[name=label]Field Parcels}](a) at (-1,0){\includegraphics[width=13cm]{images/map/breizh}};
+	\node[label={[name=label]Field Parcels}](fieldparcels) at (-1,0){\includegraphics[width=13cm]{images/map/breizh}};
 %	\node[fit=(label)(a), draw=tumbluedark, rounded corners, minimum height=13cm]{};
 %%	\node[above=of a, text width=14cm, font=\tiny]{field parcels in Brittany colored by crop type label};
 	%
-	\node[label={[name=label, text height=2ex]above: Administrative Divisions}](b) at (0,0){\includegraphics[width=12.6cm]{images/map/regions}};
+	\node[label={[name=label, text height=2ex]above: Administrative Divisions}](nuts2) at (0,0){\includegraphics[width=12.6cm]{images/map/regions}};
 %	\node[fit=(label)(b), draw=tumbluedark, rounded corners, minimum height=13cm]{};
 	
-	\node[label={[name=label, text height=2ex]above: European Crop Data}](d) at (1,0){\includegraphics[width=14cm]{images/map/europe_data2.png}};
-%	\node[fit=(label)(d), draw=tumbluedark, rounded corners, minimum height=13cm]{};
-%	\node[right=of b](c){
-%		\small
-%			\begin{tabular}{lrr}
-%			\toprule
-%			Departements & Parcels \\
-%			\cmidrule(lr){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}
-%			%			\midrule
-%			Morbihan & 158522 \\
-%			Côtes-d’Armor & 221095 \\
-%			Finistère & 180565\\
-%			Ille-et-Vilaine & 207993\\
-%			\bottomrule
-%			\end{tabular}	
-%		};
-	\node[below=of b, label={[yshift=-1em]above:Class Frequency in the Administrative Divisions}, yshift=1em](histogram){
+	\node[label={[name=label, text height=2ex]above: European Crop Data}](euro) at (1,0){\includegraphics[width=14cm]{images/map/europe_data2.png}};
+	
+	\coordinate[below=-1.25em of fieldparcels](labels);
+	\coordinate(la) at (labels -| fieldparcels);
+	\coordinate(lb) at (labels -| nuts2);
+	\coordinate(ld) at (labels -| euro);
+
+	
+	\node[font=\verytiny, fill=tumbluelight!20] at (la){field parcels colored by crop type};
+	\node[font=\verytiny, fill=tumbluelight!20] at (lb){NUTS-2 regions for train/test splits};
+	\node[font=\verytiny, fill=tumbluelight!20] at (ld){{\color{tumorange} Brittany} and {\color{tumblue} more regions} providing crop  labels};
+	
+
+	\node[below=of nuts2, label={[yshift=-1em]above:Class Frequency in the Administrative Divisions}, yshift=1em](histogram){
 	\input{images/partition_histograms.tikz}
 	};
 
 	\scoped[on background layer]
 	{
-		\node[fit=(a)(b)(d)(histogram)(label), fill=tumbluelight!20, inner sep=0em, rounded corners]{};
+		\node[fit=(fieldparcels)(nuts2)(euro)(histogram)(label), fill=tumbluelight!20, inner sep=0em, rounded corners]{};
 	}	
 	
 \end{tikzpicture}
@@ -207,13 +213,13 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 
 \begin{tikzpicture}[xscale=11, yscale=-4]
 \input{images/example.tikz}
-\node[label={[yshift=.75em]below:\tiny corn parcel}](a) at (-1,0){\examplecorn};
-\node[label={[yshift=.75em]below:\tiny meadow parcel}](b) at (1,0){\examplemeadows};
-\node(c) at (0,1.2) {\includegraphics[width=\textwidth]{images/legend_x2.png}};
+\node[label={[yshift=.75em]below:\tiny \textbf{\color{tumblue}corn} parcel}](examplecorn) at (-1,0){\examplecorn};
+\node[label={[yshift=.75em]below:\tiny \textbf{\color{tumblue}temporary meadow} parcel}](examplemeadows) at (1,0){\examplemeadows};
+\node(legend) at (0,1.2) {\includegraphics[width=.9\textwidth]{images/legend_x2.png}};
 
 \scoped[on background layer]
 {
-	\node[fit=(a)(b)(c), fill=tumbluelight!20, inner sep=0em, rounded corners]{};
+	\node[fit=(examplecorn)(examplemeadows)(legend), fill=tumbluelight!20, inner sep=0em, rounded corners]{};
 }
 \end{tikzpicture}
 
@@ -223,13 +229,13 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 	
 	\section{Results}
 	
-	We show the feasibility of classifying this dataset with \textbf{\color{tumblue}LSTM} \citep{hochreiter1997long} and \textbf{\color{tumorange}Tranformer} \citep{Vaswani:Transformer} baselines.
+	We show the feasibility of classifying this dataset with \textbf{LSTM} \citep{hochreiter1997long} and \textbf{Tranformer} \citep{Vaswani:Transformer} baselines.
 	
 %	\input{images/lstmmodel.tikz}
 %	\lstmmodel
 %	\transformermodel
 	
-	\vspace{.5em}
+	\vspace{1em}
 	
 	\begin{tikzpicture}
 		\node[label={[name=lab3]above:Comparison of Baseline Models}](a){
@@ -237,8 +243,8 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 		\toprule
 		method & accuracy & $\kappa$ & $f_1$ & prec.  & rec. \\
 		\cmidrule(lr){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}\cmidrule(lr){5-5}\cmidrule(lr){6-6}\cmidrule(lr){7-7}
-		\textbf{\color{tumorange}Transformer} & \textbf{.69}  &  \textbf{.63} & .57 & {.60} & .56 \\
-		\textbf{\color{tumblue}LSTM} & .68 & .62 & \textbf{.59} & \textbf{.63} & \textbf{.58} \\
+		\textbf{Transformer} & \textbf{.69}  &  \textbf{.63} & .57 & {.60} & .56 \\
+		\textbf{LSTM} & .68 & .62 & \textbf{.59} & \textbf{.63} & \textbf{.58} \\
 		\bottomrule
 		\end{tabular}
 		};
@@ -248,89 +254,89 @@ Data gathered in Brittany, France (\textit{Breizh}) in 2017 covering 27.206 km²
 		}
 	\end{tikzpicture}
 
-	\vspace{.5em}
+	\vspace{1em}
 	
 	\tikzstyle{crop} = [fill=tumbluelight, rounded corners]
 	
 	
 	\begin{tikzpicture}[xscale=6, yscale=15]
-		\node[label={[name=lab2]above:Class-wise results of the LSTM model.}](a) at (0,0){{\small\input{images/data/BreizhCrops_rnn/npy/table.tex}}};
-		\node[rounded corners, label={[name=lab]below:\small precision}](b) at (-1,-1){\resizebox{12cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{3}{1}}};
-		\node[rounded corners, label=below:\small recall](c) at (1,-1){\resizebox{12cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{4}{1}}};
+		\node[label={[name=lab2]above:Class-wise results of the LSTM model}](table) at (0,0){{\small\input{images/data/BreizhCrops_rnn/npy/table.tex}}};
+		\node[rounded corners, label={[name=lab]below:\small precision}](confmatprecision) at (-1,-1){\resizebox{12cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{3}{1}}};
+		\node[rounded corners, label=below:\small recall](confmatrecall) at (1,-1){\resizebox{12cm}{!}{\confmat{images/data/BreizhCrops_rnn/npy/confmat_flat.csv}{4}{1}}};
 		
 		\scoped[on background layer]
 		{
-			\node[fit=(a)(b)(c)(lab)(lab2), fill=tumbluelight!20, inner sep=0em, rounded corners]{};
+			\node[fit=(table)(confmatprecision)(confmatrecall)(lab)(lab2), fill=tumbluelight!20, inner sep=0em, rounded corners](boxresults){};
 		}
 		
 	\end{tikzpicture}
 
 
-	 \section{Outlook}
+	 \section{Outlook and Next Steps}
 %	 
 %	 \begin{minipage}{\textwidth}
 %	 	
 	 	\begin{itemize}
-	 		\item \textbf{pre-train} vegetation model on available crop type data
-	 		\item test \textbf{generalization} over \textbf{changing environmental conditions}
-	 		\item \textit{Google Research Credits} for large-scale crop type mapping  
+	 		\item test \textbf{generalization} over \textbf{changing environmental conditions}. Problem of domain adaptation?
+	 		\item Acquired \textit{\color{tumblue}Google Research Credits} for large-scale crop type mapping  
+	 		\item use available crop type labels to \textbf{pre-train} vegetation model and fine-tune on
+	 		
 	 	\end{itemize}
 	 	
 %	 \end{minipage}
 %%	 \begin{minipage}{.38\textwidth}
 %%	 	\includegraphics[width=\textwidth]{images/map/europe_data.pdf}
 %	 	\tiny open crop data regions
-%	 \end{minipage}
-	 
-	 \section{Feedback}
-	 
-	 \begin{itemize}
-	 	\item suggestion of baseline models?
-%	 	\item general interest in this application?
-%	 	\item use of the dataset for TS community?
-	 	\item ideas to address the challenges?
-	 \end{itemize}
+%%	 \end{minipage}
+%	 
+%	 \section{Feedback}
+%	 
+%	 \begin{itemize}
+%	 	\item suggestion of baseline models?
+%%	 	\item general interest in this application?
+%%	 	\item use of the dataset for TS community?
+%	 	\item ideas to address the challenges?
+%	 \end{itemize}
 
-	\tiny
+	\small
 	\bibliographystyle{icml2019}
 	\bibliography{bib/references.bib}
 
 \end{minipage}
 
-%%%%%%%%% Challenges!
-\begin{tikzpicture}[overlay]
-%\node at (lab){test};
-\end{tikzpicture}
-
+\input{challenges.tex}
 
 % footer environment places \hfill and sets fontsize
 \begin{footer}
-	\begin{minipage}{.33\textwidth}
-		\textbf{Technical University of Munich}\footnotemark[1]\\
-		TUM Department of Civil, Geo and Env. Engineering \\
-		Remote Sensing Technology \\
-		Arcisstr. 21, 80333 Munich, Germany
+	\begin{minipage}{.17\textwidth}
+		\textbf{ICML 2019 \\ Time Series Workshop}\\
+		\phantom{A} \\ \phantom{B}
+%		roseyu.com/time-series-workshop/
 	\end{minipage}
-	\begin{minipage}{.33\textwidth}
+	\begin{minipage}{.25\textwidth}
+		\textbf{Technical University of Munich}\footnotemark[1]\\
+		TUM Department of Civil, Geo and Env. \\
+		Remote Sensing Technology \\
+		Arcisstr. 21, Munich, Germany
+	\end{minipage}
+	\begin{minipage}{.25\textwidth}
 		\textbf{IRISA-Obelix}\footnotemark[2]\\
 		Université Bretagne Sud \\
 		IRISA, UMR 6074 CNRS \\
-		Campus de Tohannic, 56000 Vannes, France
+		Campus de Tohannic, Vannes, France
 		
 	\end{minipage}
-	\begin{minipage}{.23\textwidth}
+	\begin{minipage}{.25\textwidth}
 		\textbf{Data \& Code} \\
 %		\vspace{1em}
 		{github.com/TUM-LMF/BreizhCrops} \\
 		{https://twitter.com/MarcCoru} \\
 		www.lmf.bgu.tum.de/vision
 	\end{minipage}
-	\begin{minipage}{.10\textwidth}
-		\hfill\includegraphics[width=5cm]{images/qrcode}\\
-		
+	\begin{minipage}{.05\textwidth}
+		\hfill\includegraphics[width=5cm]{images/qrcode}
 	\end{minipage}
 
-	
 \end{footer}
 
 \end{document}

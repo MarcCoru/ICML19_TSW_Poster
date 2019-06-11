@@ -1,0 +1,38 @@
+
+
+\tikzstyle{handdraw} = [decorate, decoration={random steps,segment length=.2em,amplitude=.05em}]
+\tikzstyle{pencildraw} = [handdraw]
+\tikzstyle{challenge} = [handdraw, fill=tumbluedark, text=white, rounded corners=4pt, font=\tiny]
+
+
+%%%%%%%%% Challenges!
+\begin{tikzpicture}[overlay]
+
+\node[challenge, yshift=-5cm, xshift=-4em, text width=8cm](chmixed) at (boxresults.west){\textbf{Challenge: } \\Classes with similar vegetation characteristics};
+
+\draw[pencildraw, rounded corners] (chmixed) -- (confmatprecision.center);
+\draw[pencildraw, rounded corners] (chmixed) -- (confmatrecall.center);
+\draw[pencildraw, rounded corners] (chmixed) -- (table.center);
+
+\node[challenge, yshift=-1em, xshift=-4em, text width=10cm](chimb) at (histogram.south east){\textbf{Challenge: } \\ Highly imbalanced classes};
+\draw[pencildraw, rounded corners] (chimb) -- ($ (histogram)+(7em,-1em) $);
+\draw[pencildraw, rounded corners] (chimb) -- ($ (histogram)+(9em,-1em) $);
+\draw[pencildraw, rounded corners] (chimb) -- ($ (histogram)+(13em,-1em) $);
+
+\node[challenge, yshift=3em, xshift=-6em, text width=6cm](chautoc) at (histogram.north){\textbf{Challenge: } \\ Regional variations in the class distributions};
+\draw[pencildraw, rounded corners] (chautoc) -- ($ (histogram)+(-0em,0em) $);
+\draw[pencildraw, rounded corners] (chautoc) -- ($ (nuts2)+(-2em,0em) $);
+\draw[pencildraw, rounded corners] (chautoc) -- ($ (nuts2)+(-.5em,2em) $);
+\draw[pencildraw, rounded corners] (chautoc) -- ($ (fieldparcels)+(-2em,0em) $);
+\draw[pencildraw, rounded corners] (chautoc) -- ($ (fieldparcels)+(-.5em,2em) $);
+
+\node[challenge, yshift=2.5em, xshift=-4em, text width=10cm](chcld) at (examplemeadows.north){\textbf{Challenge: } \\ Pos. bias caused by clouds};
+\draw[pencildraw, rounded corners] (chcld) -- ($ (examplemeadows)+(-1.5em,2em) $);
+\draw[pencildraw, rounded corners] (chcld) -- ($ (examplemeadows)+(2em,2em) $);
+\draw[pencildraw, rounded corners] (chcld) -- ($ (examplemeadows)+(3.5em,2em) $);
+\draw[pencildraw, rounded corners] (chcld) -- ($ (examplecorn)+(3em,2em) $);
+%\draw[pencildraw, rounded corners] (chimb) -- ($ (histogram)+(9em,-1em) $);
+%\draw[pencildraw, rounded corners] (chimb) -- ($ (histogram)+(13em,-1em) $);
+
+
+\end{tikzpicture}
